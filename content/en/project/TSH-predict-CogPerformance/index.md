@@ -28,65 +28,192 @@ image: "project_image.png"
 
 ## Project definition
 ---
-### Background
+## Background
 
-Neuroimaging is widely used to understand neurophysiological processes associated with obesity and responsiveness to weight loss interventions ([Carnell et al. 2012](https://onlinelibrary.wiley.com/doi/10.1111/j.1467-789X.2011.00927.x)). Functional MRI studies examining the food cue reactivity in obesity compared to lean individuals have shown BOLD differences in brain regions involved in energy regulation, cognitive control and reward valuation ([Harding et al. 2018](https://www.nature.com/articles/ijo2017237)). These alterations may be implicated in the development of obesity, as well as a predictor of lower success in weight loss intervention ([Hermann et al. 2019](https://www.sciencedirect.com/science/article/pii/S2213158219301536?via%3Dihub)). However, it is unclear if intervention targeting weight loss and cardiometabolic improvement, such as bariatric surgery, could reverse these alterations in brain functional reactivity to food cues. My project aims to identify brain regions that react to snack images in individuals with severe obesity, and examine changes in food cue reactivity after weight loss induced by bariatric surgery.
+Cognitive impairment is a leading cause for loss of functional independence in old age and often precedes cognitive disorders such as Alzheimer’s Disease (AD). Dementia is predicted to increase to 152.8 million cases by 2050 (1). However, more research is needed to identify modifiable factors to decrease risk of cognitive decline and dementia (2). 
+
+Thyroid hormones have an established role in the development and the maturation of the brain through neurogenesis, synaptogenesis, and myelination (3). However, the impact and the role of thyroid hormones on the adult brain is more unclear. There are conflicting findings of the impact of thyroid dysregulation on cognitive impairment (4). An association was found between the thyroid function and the cortical architecture in functional areas of the brain linked to neurodegeneration (5), suggesting a mechanistic link. In addition, thyroid function is known to modulate mood, and result in certain psychiatric conditions such as depression and bipolar disorder (6). Comorbid depression and sub-threshold hypothyroidism comorbidity was shown to result in reduced gray matter volume in the middle front gyrus and lower executive function performance (7). The middle front gyrus is also associated with working memory and attention, suggesting that these cognitive subdomains may also be impacted. Together, these suggest that thyroid function may modulate function in multiple cognitive domains through more than one pathway. However, due to missing depressive scores in majority of participants, depression scores was unable to be accounted for as a predictive variable.
+
+Thus, this research project has the following objectives:
+
+**Primary**:  To determine if thyroid stimulating hormone (TSH), and cortical structure are able to sufficiently predict cognitive scores in executive function, working memory, and attention, using elastic net regression machine learning. 
+
+**Secondary**: To determine if adding sex as a predictor improves the predictive performance of the model.
+
 
 ### Tools
 This project relied on numerous tools such as:
 1) Git and GitHub to use and share methods;
-2) High performance computing (HPC), such as Alliance Canada, for executing scripts; 
-3) Python packages, such as nilearn, for food cue reactivity analyses.
+2) Python Packages: sklearn, shap, pandas, numpy
 
 ### Data
-The dataset was collected from 2016 to now at Quebec Heart and Lungs Institute. Ninety-four participants with severe obesity scheduled to undergo bariatric surgery were recruited. Participants were scanned prior to, 4, 12 and 24 months after bariatric surgery. For this project, a T1 and three fMRI runs with [Becker-DeGroot-Marshack auction task](https://onlinelibrary.wiley.com/doi/10.1002/bs.3830090304) (duration: 10 minutes 27 seconds) from one participant will be used. Forty-five randomized images (15 high-sweet, 15 high-salt and 15 low caloric density) were presented to the participant for 4 seconds. ThepParticipant must bid between 0 to 5$ for each snacks in the next 4s. The auction part will not be evaluated in this project.
+The database used for the project was “The National Institute of Mental Health (NIMH) and Research Volunteer Data Set” from OpenNeuro. This dataset consists of clinical assessments, mood-related psychometrics, cognitive function neuropsychological tests, structural and functional MRI, diffusion tensor imaging (DTI), comprehensive magnetoencephalography battery (MEG), and blood samples. 
 
-![](Paradigm.png)
+Link to the dataset: https://openneuro.org/datasets/ds005752/versions/2.1.0
+
+
+
 
 ### Project deliverables 
 At the end of this project, these files will be made available:
-1) Python scripts to analyse brain reactivity to food cues;
+1) Python scripts for the 3 different predictive models;
 2) Figures of this results; 
-3) A repository on GitHub to share my methods;
-4) Scripts on Alliance Canada which will be usefull to all members of my lab.
+3) A repository on GitHub;
 
-## Results
+## Methodology
+
+### Variables
+The main outcomes were chosen for the main models are from the NIH Toolbox Cognitive Battery to represent cognitive performance, with the following cognitive subdomain.:
+
+ 1) Flanker Inhibitory Control and Attention Task Score: Attention
+ 2) Dimensional Change Card Sort Task Score: Executive Function
+ 3) List Sorting Working Memory Task Score: Working Memory
+
+These outcomes were chosen due to existing literature suggesting that thyroid activity may impact these specific cognitive subdomains. This is a continuous variable of the participant’s score in the cognitive subdomain. 
+
+A secondary control model was also created in which the outcome was sex. This is a binary outcome of either male or female.
+
+### Models
+The machine learning method chosen was elastic net regression due to the high amounts of predictors used for this model. Elastic net regression has penalty coefficients that allows the model to choose for the best features and stabilize the model. SHAP values were also calculated to give insight into which predictors had the highest predictive power.
+
+While, the main goal of the project was to create a model predicting cognitive score based on TSH levels, and structural brain features, additional models were created to ensure robustness and confirm the pipeline developed works for more established relationships.
+
+The following models were created: 
+
+**Model 1**
+
+This is the original planned model to determine if TSH and brain features are able to predictive various cognitive subdomain scores
+Output:
+
+(1) Flanker Inhibitory Control and Attention Task Score
+
+(2) Dimensional Change Card Sort Task Score
+
+(3) List Sorting Working Memory Task Score
+
+Predictors: log(TSH), 68 CT variables, 68 SA variables, ICV, age
+
+**Model 2**
+
+This model modifies the first model by residualizing the brain variables to account for head size and age.
+
+Output: 
+
+(1) Flanker Inhibitory Control and Attention Task Score
+
+(2) Dimensional Change Card Sort Task Score
+
+(3) List Sorting Working Memory Task Score
+
+Predictors: log(TSH), sex, 68 CT residuals after adjusting for age and ISV, 68 SA residuals after adjusting for age and ISV
+
+**Model 3**
+
+This model serves to confirm the pipeline developed works for variables and outcomes that have more literature evidence.
+
+Output: Sex
+
+Model 3.1
+
+Predictors: age, ICV, CT, SA
+
+Model 3.2 (added log(TSH)
+
+Predictors: log(TSH), ICV, CT, SA
+
+Model 3.3 (residualized and without log(TSH)
+
+Predictors: age, CT and SA residualized for age and CV
+
+Model 3.4 (residualized with log(TSH)
+
+Predictors: log(TSH), age, CT and SA residualized for age and CV
+
+
 ---
-### Progress overview
-First, this project involved correcting the format of my dataset. I had to convert it to BIDS format and preprocess the Nifti files with fmriprep. These steps took longer than expected. So far, only one participant's files have been converted to BIDS format and preprocessed. However, I was able to run a first-level general linear model on this participant to present: 1) BOLD activity in the visual cortex and the superior frontal gyrus (SFG) when images were shown at this participant (effect of interest)  and 2) no significant region of BOLD activity when contrasting high vs low calorie snacks.
+## Results
 
-##### Figure 1. BOLD activity when images are shown (for run #1 of one participant)
-![](GLM-1stLevel-EffectOfInterest-Images.JPG)
+**Cognitive Performance Models**
 
-##### Figure 2. BOLD activity contrast between high vs low calorie snacks (for run #1 of one participant)
-![](GLM-1stLevel-contrastHighVSLowCal.JPG)
+Across the cognition outcomes, neither elastic-net model showed meaningful held-out prediction of cognitive performance. Most R² values were close to zero or below zero, indicating that the models did not improve over a simple mean-prediction baseline in held-out participants.
 
-### Tools I learned during this project
-1) [dcm2niix](https://github.com/rordenlab/dcm2niix): I learned how to convert data from Dicom to Nifti and what I must check to validate that the convertion went well;
-2) [BIDS-validator](https://bids-standard.github.io/bids-validator/): I learned how to standardize a dataset into BIDS format;
-3) [fmriprep](https://fmriprep.org/en/stable/): I learned how to execute fmriprep and what is the output after the execution;
-4) [Nilearn](https://nilearn.github.io/stable/index.html): I learned how to use Nilearn on Jupyter Notebook to visualize data and examine the contrast of high vs low calorie food cues in a one participant's run;
-5) [Alliance Canada](https://alliancecan.ca/fr): I learned how to manage time, cpus, and memory to run a bash file;
-6) [GitHub](https://github.com/): Before this school, I had trouble using it. But now, I'm very glad to know much and how it could help me to produce reproductible research.  
+The original model showed a very small positive R² for working memory, but the effect was weak and convergence warnings occurred during fitting. Overall, these results suggest that the tested combinations of TSH, sex, age, ICV, cortical thickness, and surface area did not robustly predict cognition in held-out participants.
 
-### Deliverables
-The results of my project was mostly:
-1) BIDS transformation of one participant's file to better use standardized pipeline;
-2) Use fmriprep to had clean preprocessed data for one participant;
-3) Create Alliance Canada scripts that could be share to all members of my lab;
-4) Use Nilearn from Jupyter Notebook to visualize contrast for high vs low calorie food cues.
+SHAP outputs were generated to inspect variable contributions, but they should be interpreted cautiously because overall prediction performance was weak.
 
-### Future work
-For this study, I'll have to convert all my dataset into a BIDS format and execute fmriprep on my Nifti files using Alliance Canada. Then, I would be able to go further in my analysis, which means to execute 2nd and 3rd level general linear model. 
+In the cognitive performance models, because held-out prediction was weak, the SHAP outputs should be treated as descriptive rather than as evidence of reliable prediction.
 
-## Conclusion and acknowledgement
-First, I was a bit disappointed not to have gone far in analyzing my data. But I realized that thanks to this school, I finally have the necessary notions to standardize dataset and to proceed with the analysis of my data. I have learned more than if I had simply worked on analyses in Nilearn.  
+Across the cognition models, log(TSH) showed no meaningful SHAP contribution. In the original working-memory model, age was the strongest SHAP contributor and ICV also contributed, but this result should be interpreted cautiously because the held-out prediction was very weak and convergence warnings occurred during fitting.
 
-I would like to thanks all the Brainhack School organizators and all the crew. Mostly, thanks for this awesome opportunity!
+For the other cognition models, the highest SHAP values were mainly assigned to cortical thickness and surface-area features, including residualized CT/SA features in Model 2.
+
+### Model 1 Performance Metrics
+
+| Outcome | Pooled out-of-fold R-squared | Root Mean Squared Error | Mean Absolute Error |
+| --- | --- | --- | --- |
+| ATTN_EXE_COMP | -0.021 | 0.644 |  0.510 |
+|WKMEM | -0.008 | 10.352 | 8.357 |
+|EF_COMP | -0.003 | 0.813 | 0.679 |
+
+### Model 2 Performance Metrics
+
+| Outcome | Pooled out-of-fold R-squared | Root Mean Squared Error | Mean Absolute Error |
+| --- | --- | --- | --- |
+| ATTN_EXE_COMP | -0.643 | 0.644 |  0.513 |
+|WKMEM | -0.042 | 10.541 | 8.578 |
+|EF_COMP | -0.015 | 0.818 | 0.682 |
+
+### Model 3 Performance Metrics
+
+| Model | Pooled ROC AUC | Accuracy | Balanced Accuracy |
+| --- | --- | --- | --- |
+| Original | 0.788 | 0.729 |  0.723 |
+|Original + TSH | 0.788 | 0.729 | 0.723 |
+|Residualized | 0.535 | 0.518 | 0.507 |
+|Residualized + TSH | 0.536  |  0.523 | 0.510  |
+
+**Sex Predictive Models**
+
+The non-residualized CT/SA sex-classification models showed moderate held-out classification performance. The SHAP summaries indicate that ICV was the strongest individual contributor in these models, consistent with the drop to near-chance performance after CT and SA were residualized for age and ICV.
+
+Adding log(TSH) did not improve the printed performance metrics and did not produce a meaningful SHAP contribution.
+
+Overall, the positive-control exercise shows that the pipeline can recover a sex-classification signal when age, ICV, cortical thickness, and surface area are included. After age/ICV residualization, this signal was no longer recovered above chance-level performance.
+
+In the original, non-residualized sex-classification models, ICV was the strongest individual SHAP contributor. Additional contributions came from cortical surface-area and cortical-thickness features. Age had little SHAP contribution, and adding log(TSH) did not produce a meaningful SHAP contribution.
+
+In the residualized models, the highest SHAP values were assigned to age/ICV-residualized cortical thickness and surface-area features. However, these models performed close to chance, so the SHAP rankings should be interpreted cautiously. 
+
+
+## Discusssion
+The two main predictive models were not able to reliably predict cognitive scores. Findings regarding the relationship between thyroid hormone levels and cognitive performance are generally mixed. This result is consistent with Quinque et al 7. The authors found that participants with Hashimoto’s Thyroiditis (hypothyroidism) were not significantly associated with cognitive impairment in working memory, and attention. The authors suggest that cognitive deficits may not be apparent in young, healthy individuals, due to cognitive reserve. The NIMH database is a healthy volunteer study, thus specifically excludes individuals with education levels lower than completion of middle school and those with mental health conditions, like depression. Thus, individuals whose cognitive performance may be impacted by thyroid levels may not be in the dataset. Additionally, due to depression scores being dropped as a predictor variable, one of the pathways in which thyroid hormones modulate cognitive performance may not be captured, further weakening the relationship.
+
+Our results contradict the findings from Zhao et al., and Beydoun et al. 8,9, which their results suggest that TSH levels can impact cognitive performance. Zhao et al., found that higher levels of TSH is associated with better performance in psychomotor speed, and attention; while, Beydoun et al., found that comorbid depression and hypothyroidism results in worse cognitive performance in executive function. These results together suggest TSH is associated with cognitive performance, in which low levels of TSH result in poor performance and vice-versa. Beydoun et al. found that the interaction term between TSH and depression score to be non-significant; suggesting the relationship between TSH and depression in relation to cognitive performance, in the model,  is additive. This suggests that the predictive accuracy of TSH is accurate but simply weak. This is supported by SHAP, which shows TSH as a very weak predictor of cognitive performance. 
+
+Based on the SHAP values, the largest contribution to predictive power in the model are various brain regions. The brain regions that are calculated to be the most predictive by SHAP are not consistent with literature. The most predictive brain regions are the right supramarginal gyrus, and the right transversternal gyrus, as opposed to the middle front gyrus and the left anterior cingulate cortex found in literature 7,8.
+
+In contrast, the sex predictive model had fairly acceptable performance, with the non-residualized version performing the most accurately. This is fairly consistent with literature as machine learning models have been shown to be able to predict sex of a participant via imaging of their brains 10. In addition, the SHAP values are somewhat consistent with literature, since the most predictive region is the superior frontal gyrus 10. In addition, when accounting for the head and brain size in the residualized model, the predictive performance worsened. This is also consistent with literature since intracranial volume is a large contributor to model performance 11. This is also seen in the SHAP values for the sex difference model. 
+Overall, through the positive control of the sex predictive model, it was shown that this pipeline works for creating an accurate predictive model when the model is given predictors strongly related to the outcome. The main models had poor predictive performance due to the weak relationship between the predictors and cognitive performance, rather than poor methodology. Considering that the dataset uses healthy volunteers, which may not capture populations susceptible to cognitive decline due to TSH, and the lack of depressive score data, the model may also have been inaccurate due to the unavailability of data for relevant populations and stronger predictive variables. Thus, future predictive models for cognitive performance should ensure to utilize datasets with relevant populations and variable data to avoid bias.  
+
 
 ## References
-Carnell S, Gibson C, Benson L, Ochner CN, Geliebter A. Neuroimaging and obesity: current knowledge and future directions. Obes Rev. 2012 Jan;13(1):43-56. doi: 10.1111/j.1467-789X.2011.00927.x. Epub 2011 Sep 8. PMID: 21902800; PMCID: PMC3241905.
+1) Nichols, E. et al. Estimation of the global prevalence of dementia in 2019 and forecasted prevalence in 2050: an analysis for the Global Burden of Disease Study 2019. Lancet Public Health 7, e105–e125 (2022).
 
-Harding IH, Andrews ZB, Mata F, Orlandea S, Martínez-Zalacaín I, Soriano-Mas C, Stice E, Verdejo-Garcia A. Brain substrates of unhealthy versus healthy food choices: influence of homeostatic status and body mass index. Int J Obes (Lond). 2018 Mar;42(3):448-454. doi: 10.1038/ijo.2017.237. Epub 2017 Sep 25. PMID: 29064475.
+2) Rasmussen, J. & Langerman, H. <p>Alzheimer’s Disease – Why We Need Early Diagnosis</p>. Degener. Neurol. Neuromuscul. Dis. Volume 9, 123–130 (2019).
+Bernal J. Thyroid Hormones in Brain Development and Function. [Updated 2025 Sep 29]. In: Feingold KR, Adler RA, Ahmed SF, et al., editors. Endotext [Internet]. South Dartmouth (MA): MDText.com, Inc.; 2000-. Available from: https://www.ncbi.nlm.nih.gov/books/NBK285549/
 
-Hermann P, Gál V, Kóbor I, Kirwan CB, Kovács P, Kitka T, Lengyel Z, Bálint E, Varga B, Csekő C, Vidnyánszky Z. Efficacy of weight loss intervention can be predicted based on early alterations of fMRI food cue reactivity in the striatum. Neuroimage Clin. 2019;23:101803. doi: 10.1016/j.nicl.2019.101803. Epub 2019 Mar 27. PMID: 30991304; PMCID: PMC6463125. 
+3) Eslami-Amirabadi, M., & Sajjadi, S. A. (2021). The relation between thyroid dysregulation and impaired cognition/behaviour: An integrative review. Journal of neuroendocrinology, 33(3), e12948. https://doi.org/10.1111/jne.12948
+
+4) Wu X, Liu H, Cui L, Mo M, Li C. Genetically determined thyroid function and cerebral cortex structure: A Mendelian randomization study. Adv Clin Exp Med. 2025 Nov;34(11):1863-1879. doi: 10.17219/acem/199321. PMID: 40699126.
+
+5) Hendrick V, Altshuler L, Whybrow P. Psychoneuroendocrinology of mood disorders. The hypothalamic-pituitary-thyroid axis. Psychiatr Clin North Am. 1998 Jun;21(2):277-92. doi: 10.1016/s0193-953x(05)70005-8. PMID: 9670226.
+
+6) Hendrick V, Altshuler L, Whybrow P. Psychoneuroendocrinology of mood disorders. The hypothalamic-pituitary-thyroid axis. Psychiatr Clin North Am. 1998 Jun;21(2):277-92. doi: 10.1016/s0193-953x(05)70005-8. PMID: 9670226.
+
+7) Zhao S, Du Y, Zhang Y, Wang X, Xia Y, Sun H, Huang Y, Zou H, Wang X, Chen Z, Zhou H, Yan R, Tang H, Lu Q and Yao Z (2023) Gray matter reduction is associated with cognitive dysfunction in depressed patients comorbid with subclinical hypothyroidism. Front. Aging Neurosci. 15:1106792. doi: 10.3389/fnagi.2023.1106792
+
+8) Beydoun, M. A., Beydoun, H. A., Kitner-Triolo, M. H., Kaufman, J. S., Evans, M. K., & Zonderman, A. B. (2013). Thyroid hormones are associated with cognitive function: moderation by sex, race, and depressive symptoms. The Journal of clinical endocrinology and metabolism, 98(8), 3470–3481. https://doi.org/10.1210/jc.2013-1813
+ 
+9) Dibaji M, Ospel J, Souza R and Bento M (2024) Sex differences in brain MRI using deep learning toward fairer healthcare outcomes. Front. Comput. Neurosci. 18:1452457. doi: 10.3389/fncom.2024.1452457
+
+10) Sanchis-Segura C, Ibañez-Gual MV, Aguirre N, Cruz-Gómez ÁJ, Forn C. Effects of different intracranial volume correction methods on univariate sex differences in grey matter volume and multivariate sex prediction. Sci Rep. 2020 Jul 31;10(1):12953. doi: 10.1038/s41598-020-69361-9. Erratum in: Sci Rep. 2020 Oct 29;10(1):18937. doi: 10.1038/s41598-020-75522-7. PMID: 32737332; PMCID: PMC7395772. 
