@@ -8,7 +8,7 @@ title: "Can brain structure and TSH levels predict cognitive performance, and do
 names: [Katrina Mae Tapang, Monika Folkierska-Żukowska, Xinni Wang]
 
 # Your project GitHub repository URL
-github_repo: 
+github_repo: Github.com/brainhack-school2026/TSH-predict-CogPerformance
 
 # If you are working on a project that has website, indicate the full url including "https://" below or leave it empty.
 website:
