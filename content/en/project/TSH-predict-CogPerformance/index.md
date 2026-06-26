@@ -1,25 +1,25 @@
 ---
 type: "project" # DON'T TOUCH THIS ! :)
-date: "2023-06-07" # Date you first upload your project.
+Date: "2026-06-26" # Date you first upload your project.
 # Title of your project (we like creative title)
-title: "Impact of weight loss on fMRI food cue reactivity"
+title: "Can brain structure and TSH levels predict cognitive performance, and does prediction improve when sex is considered in the model?"
 
 # List the names of the collaborators within the [ ]. If alone, simple put your name within []
-names: [Justine Daoust]
+names: [Katrina Mae Tapang, Monika Folkierska-Żukowska, Xinni Wang]
 
 # Your project GitHub repository URL
-github_repo: https://github.com/brainhack-school2023/JDaoust_project.git
+github_repo: 
 
 # If you are working on a project that has website, indicate the full url including "https://" below or leave it empty.
 website:
 
 # List +- 4 keywords that best describe your project within []. Note that the project summary also involves a number of key words. Those are listed on top of the [github repository](https://github.com/brainhack-school2023/JDaoust_project.git), click `manage topics`.
 # Please only lowercase letters
-tags: [fMRI, food cues, obesity, weight loss]
+tags: [cognition, thyroid, sex, sMRI]
 
 # Summarize your project in < ~75 words. This description will appear at the top of your page and on the list page with other projects..
 
-summary: "Functional MRI studies examining reactivity to food cues in obesity have shown BOLD differences in brain regions involved in the regulation of food intake. This project aims to characterize brain reactivity to food cues in individuals with severe obesity and to examine changes in brain reactivity to food cues by fMRI after weight loss induced by bariatric surgery."
+summary: "Thyroid hormone levels may potentially impact cortical structures and cognitive performance. This project aims to determine if TSH levels and cortical structure can predict cognitive performance for executive function, attention, and working memory using Elastic Net Regression ."
 
 # If you want to add a cover image (listpage and image in the right), add it to your directory and indicate the name
 # below with the extension.
