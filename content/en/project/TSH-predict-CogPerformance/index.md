@@ -19,7 +19,7 @@ tags: [cognition, thyroid, sex, sMRI]
 
 # Summarize your project in < ~75 words. This description will appear at the top of your page and on the list page with other projects..
 
-summary: "Thyroid hormone levels may potentially impact cortical structures and cognitive performance. This project aims to determine if TSH levels and cortical structure can predict cognitive performance for executive function, attention, and working memory using Elastic Net Regression ."
+summary: "Thyroid hormone levels potentially impacts cortical structures and cognitive performance. This project aims to determine if TSH levels and cortical structure can predict cognitive performance for executive function, attention, and working memory using Elastic Net Regression ."
 
 # If you want to add a cover image (listpage and image in the right), add it to your directory and indicate the name
 # below with the extension.
