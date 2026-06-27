@@ -19,7 +19,7 @@ tags: [cognition, thyroid, sex, sMRI]
 
 # Summarize your project in < ~75 words. This description will appear at the top of your page and on the list page with other projects..
 
-summary: "Thyroid hormone levels potentially impacts cortical structures and cognitive performance. This project aims to determine if TSH levels and cortical structure can predict cognitive performance for executive function, attention, and working memory using Elastic Net Regression ."
+summary: "Thyroid hormone levels potentially impacts cortical structures and cognitive performance. This project aims to investigate if TSH levels and cortical structure can predict cognitive performance for executive function, attention, and working memory using Elastic Net Regression ."
 
 # If you want to add a cover image (listpage and image in the right), add it to your directory and indicate the name
 # below with the extension.
@@ -32,7 +32,7 @@ image: "project_image.png"
 
 Cognitive impairment is a leading cause for loss of functional independence in old age and often precedes cognitive disorders such as Alzheimer’s Disease (AD). Dementia is predicted to increase to 152.8 million cases by 2050 (1). However, more research is needed to identify modifiable factors to decrease risk of cognitive decline and dementia (2). 
 
-Thyroid hormones have an established role in the development and the maturation of the brain through neurogenesis, synaptogenesis, and myelination (3). However, the impact and the role of thyroid hormones on the adult brain is more unclear. There are conflicting findings of the impact of thyroid dysregulation on cognitive impairment (4). An association was found between the thyroid function and the cortical architecture in functional areas of the brain linked to neurodegeneration (5), suggesting a mechanistic link. In addition, thyroid function is known to modulate mood, and result in certain psychiatric conditions such as depression and bipolar disorder (6). Comorbid depression and sub-threshold hypothyroidism comorbidity was shown to result in reduced gray matter volume in the middle front gyrus and lower executive function performance (7). The middle front gyrus is also associated with working memory and attention, suggesting that these cognitive subdomains may also be impacted. Together, these suggest that thyroid function may modulate function in multiple cognitive domains through more than one pathway. However, due to missing depressive scores in majority of participants, depression scores was unable to be accounted for as a predictive variable.
+Thyroid hormones have an established role in the development and the maturation of the brain through neurogenesis, synaptogenesis, and myelination (3). However, the impact and the role of thyroid hormones on the adult brain is more unclear. There are conflicting findings of the impact of thyroid dysregulation on cognitive impairment (4). An association was found between the thyroid function and the cortical architecture in functional areas of the brain linked to neurodegeneration (5), suggesting a mechanistic link. In addition, thyroid function is known to modulate mood, and result in certain psychiatric conditions such as depression and bipolar disorder (6). Comorbid depression and sub-threshold hypothyroidism comorbidity was shown to result in reduced gray matter volume in the middle front gyrus and lower executive function performance (7). The middle front gyrus is also associated with working memory and attention, suggesting that these cognitive subdomains may also be impacted. Together, these suggest that thyroid function may modulate function in multiple cognitive domains through more than one pathway. 
 
 Thus, this research project seeks to answer the following questions:
 
@@ -44,10 +44,10 @@ Thus, this research project seeks to answer the following questions:
 ### Tools
 This project relied on numerous tools such as:
 1) Git and GitHub to use and share methods;
-2) Python Packages: sklearn, shap, pandas, numpy
+2) Python Packages: `sklearn`, `shap`, `pandas`, `numpy`
 
 ### Data
-The database used for the project was “The National Institute of Mental Health (NIMH) and Research Volunteer Data Set” from OpenNeuro. This dataset consists of clinical assessments, mood-related psychometrics, cognitive function neuropsychological tests, structural and functional MRI, diffusion tensor imaging (DTI), comprehensive magnetoencephalography battery (MEG), and blood samples. 
+The database used for the project was *The National Institute of Mental Health (NIMH) and Research Volunteer Data Set* from OpenNeuro. This dataset consists of clinical assessments, mood-related psychometrics, cognitive function neuropsychological tests, structural and functional MRI, diffusion tensor imaging (DTI), comprehensive magnetoencephalography battery (MEG), and blood samples. 
 
 Link to the dataset: https://openneuro.org/datasets/ds005752/versions/2.1.0
 
@@ -57,33 +57,34 @@ Link to the dataset: https://openneuro.org/datasets/ds005752/versions/2.1.0
 ### Project deliverables 
 At the end of this project, these files will be made available:
 1) Python scripts for the 3 different predictive models;
-2) Figures of this results; 
+2) Figures of model performance results; 
 3) A repository on GitHub;
 
 ## Methodology
 
 ### Variables
-The main outcomes were chosen for the main models are from the NIH Toolbox Cognitive Battery to represent cognitive performance, with the following cognitive subdomain.:
+Based on prior evidence linking them to thyroid activity and each was measured as a continuous score, these specific cognitive subdomains were selected from the *NIH Toolbox Cognitive Battery*:
 
  1) Flanker Inhibitory Control and Attention Task Score: Attention
  2) Dimensional Change Card Sort Task Score: Executive Function
  3) List Sorting Working Memory Task Score: Working Memory
 
-These outcomes were chosen due to existing literature suggesting that thyroid activity may impact these specific cognitive subdomains. This is a continuous variable of the participant’s score in the cognitive subdomain. 
 
-A secondary control model was also created in which the outcome was sex. This is a binary outcome of either male or female.
+Additionally, a secondary control model was developed to predict participant sex (either female and male).
 
 ### Models
-The machine learning method chosen was elastic net regression due to the high amounts of predictors used for this model. Elastic net regression has penalty coefficients that allows the model to choose for the best features and stabilize the model. SHAP values were also calculated to give insight into which predictors had the highest predictive power.
+Elastic net regression was selected to address the relatively high number of predictors. This approach utilizes penalty coefficients that perform feature selection and enhance model stability. Additionally, SHAP (SHapley Additive exPlanations) values were also calculated to give insight into which predictors had the highest predictive power.
 
-While, the main goal of the project was to create a model predicting cognitive score based on TSH levels, and structural brain features, additional models were created to ensure robustness and confirm the pipeline developed works for more established relationships.
+While the primary goal of this project was to predict cognitive scores based on TSH levels and structural brain features, supplementary models were developed to ensure robustness and validate the analytical pipeline against established relationships.
 
-The following models were created: 
 
-**Model 1: Original cognition model**
+The following models were created:   
+<br>
+
+#### Model 1: Original cognition model
 
 This is the original planned model to determine if TSH and brain features are able to predictive various cognitive subdomain scores
-Output:
+Outcomes:
 
 (1) Flanker Inhibitory Control and Attention Task Score
 
@@ -93,11 +94,13 @@ Output:
 
 Predictors: log(TSH), 68 CT variables, 68 SA variables, ICV, age
 
-**Model 2: Age/ICV-residualized brain cognition model**
+<br>
+
+#### Model 2: Age/ICV-residualized brain cognition model
 
 This model modifies the first model by residualizing the brain variables to account for head size and age.
 
-Output: 
+Outcomes: 
 
 (1) Flanker Inhibitory Control and Attention Task Score
 
@@ -107,27 +110,29 @@ Output:
 
 Predictors: log(TSH), sex, 68 CT residuals after adjusting for age and ISV, 68 SA residuals after adjusting for age and ISV
 
-**Model 3: Sex-classification positive-control exercise**
+<br>
+
+#### Model 3: Sex-classification positive-control exercise
 
 This model serves to confirm the pipeline developed works for variables and outcomes that have more literature evidence.
 
-Output: Sex
+Outcome: Sex
 
-**Model 3.1**
+&emsp; **Model 3.1**
 
-Predictors: age, ICV, CT, SA
+&emsp; Predictors: age, ICV, CT, SA
 
-**Model 3.2 (added log(TSH)**
+&emsp; **Model 3.2 (added log(TSH)**
 
-Predictors: log(TSH), ICV, CT, SA
+&emsp; Predictors: log(TSH), ICV, CT, SA
 
-**Model 3.3 (residualized and without log(TSH)**
+&emsp; **Model 3.3 (residualized and without log(TSH)**
 
-Predictors: age, CT and SA residualized for age and CV
+&emsp; Predictors: age, CT and SA residualized for age and CV
 
-**Model 3.4 (residualized with log(TSH)**
+&emsp; **Model 3.4 (residualized with log(TSH)**
 
-Predictors: log(TSH), age, CT and SA residualized for age and CV
+&emsp; Predictors: log(TSH), age, CT and SA residualized for age and CV
 
 
 ---
@@ -135,46 +140,50 @@ Predictors: log(TSH), age, CT and SA residualized for age and CV
 
 **Cognitive Performance Models**
 
-Across the cognition outcomes, neither elastic-net model showed meaningful held-out prediction of cognitive performance. Most R² values were close to zero or below zero, indicating that the models did not improve over a simple mean-prediction baseline in held-out participants.
+Across the cognition outcomes, neither elastic-net model showed meaningful held-out prediction of cognitive performance as most R² values were close to zero or below zero. Overall, these results suggest that the tested combinations of TSH, sex, age, ICV, cortical thickness, and surface area did not robustly predict cognition in held-out participants.  
 
-The original model showed a very small positive R² for working memory, but the effect was weak and convergence warnings occurred during fitting. Overall, these results suggest that the tested combinations of TSH, sex, age, ICV, cortical thickness, and surface area did not robustly predict cognition in held-out participants.
+SHAP outputs were generated to inspect variable contributions, but they should be interpreted cautiously because overall prediction performance was weak. Across the cognition models, log(TSH) showed no meaningful SHAP contribution. In the original working-memory model, age was the strongest SHAP contributor and ICV also contributed, but this result should be interpreted cautiously because the held-out prediction was very weak and convergence warnings occurred during fitting.
 
-SHAP outputs were generated to inspect variable contributions, but they should be interpreted cautiously because overall prediction performance was weak.
-
-In the cognitive performance models, because held-out prediction was weak, the SHAP outputs should be treated as descriptive rather than as evidence of reliable prediction.
-
-Across the cognition models, log(TSH) showed no meaningful SHAP contribution. In the original working-memory model, age was the strongest SHAP contributor and ICV also contributed, but this result should be interpreted cautiously because the held-out prediction was very weak and convergence warnings occurred during fitting.
-
-For the other cognition models, the highest SHAP values were mainly assigned to cortical thickness and surface-area features, including residualized CT/SA features in Model 2.
+For the rest cognition models, the highest SHAP values were mainly assigned to cortical thickness and surface-area features, including residualized CT/SA features in Mod2.
 
 ### Model 1 Performance Metrics
 
 | Outcome | R-squared | RMSE | MAE |
 | --- | --- | --- | --- |
-| ATTN_EXE_COMP | -0.021 | 0.644 |  0.510 |
+|ATTN_EXE_COMP | -0.021 | 0.644 |  0.510 |
 |WKMEM | -0.008 | 10.352 | 8.357 |
 |EF_COMP | -0.003 | 0.813 | 0.679 |
+
+<br>
+<img width="1224" height="388" alt="image" src="https://github.com/user-attachments/assets/752591f2-ca2c-42d4-9e5a-7c96ec00a78a" />
 
 ### Model 2 Performance Metrics
 
 | Outcome | R-squared | RMSE | MAE |
 | --- | --- | --- | --- |
-| ATTN_EXE_COMP | -0.643 | 0.644 |  0.513 |
+|ATTN_EXE_COMP | -0.643 | 0.644 |  0.513 |
 |WKMEM | -0.042 | 10.541 | 8.578 |
 |EF_COMP | -0.015 | 0.818 | 0.682 |
 
-#### Figure 1 and 2: [The performance metrics for the main models predicting cognitive performance for both the original and residualized ](https://github.com/brainhack-school2026/TSH-predict-CogPerformance/blob/main/03_results/cognition/results.md)
+<br>
+<img width="1224" height="388" alt="image" src="https://github.com/user-attachments/assets/145afb36-56f6-41a3-a4a8-5903cca8df13" />
+<br>
+
+Please see the full results in: [The performance metrics for the main models predicting cognitive performance for both the original and residualized](https://github.com/brainhack-school2026/TSH-predict-CogPerformance/blob/main/03_results/cognition/results.md)
 
 ### Model 3 Performance Metrics
 
 | Model | Pooled ROC AUC | Accuracy | Balanced Accuracy |
 | --- | --- | --- | --- |
-| Original | 0.788 | 0.729 |  0.723 |
+|Original | 0.788 | 0.729 |  0.723 |
 |Original + TSH | 0.788 | 0.729 | 0.723 |
 |Residualized | 0.535 | 0.518 | 0.507 |
 |Residualized + TSH | 0.536  |  0.523 | 0.510  |
+<br>
+<img width="448" height="540" alt="image" src="https://github.com/user-attachments/assets/79ba4d8d-be8f-4728-9787-f7e4453557f2" />
+<br>
 
-#### Figure 3: [The performance metrics for the sex predictive model](https://github.com/brainhack-school2026/TSH-predict-CogPerformance/blob/main/03_results/sex_classification_exercise/results.md)
+Please see the full results in:  [The performance metrics for the sex predictive model](https://github.com/brainhack-school2026/TSH-predict-CogPerformance/blob/main/03_results/sex_classification_exercise/results.md)
 
 **Sex Predictive Models**
 
@@ -198,7 +207,7 @@ Residualizing cortical thickness and surface area for age and ICV did not improv
 
 A sex classification model was included as a positive control. This model achieved moderate performance in the non-residualized case but dropped to near-chance levels after residualization. This indicates that the pipeline can recover known structure when a strong signal is present, but this signal was not observed for cognitive outcomes.
 
-Overall, the results suggest that the lack of predictive performance in cognitive models is likely due to weak or absent signal in the available predictors within this dataset, rather than a failure of the modeling approach 
+Overall, the results suggest that the lack of predictive performance in cognitive models is likely due to weak or absent signal in the available predictors within this dataset, rather than a failure of the modeling approach.
 
 
 ## References
