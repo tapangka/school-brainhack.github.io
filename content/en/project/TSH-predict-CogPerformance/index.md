@@ -34,11 +34,11 @@ Cognitive impairment is a leading cause for loss of functional independence in o
 
 Thyroid hormones have an established role in the development and the maturation of the brain through neurogenesis, synaptogenesis, and myelination (3). However, the impact and the role of thyroid hormones on the adult brain is more unclear. There are conflicting findings of the impact of thyroid dysregulation on cognitive impairment (4). An association was found between the thyroid function and the cortical architecture in functional areas of the brain linked to neurodegeneration (5), suggesting a mechanistic link. In addition, thyroid function is known to modulate mood, and result in certain psychiatric conditions such as depression and bipolar disorder (6). Comorbid depression and sub-threshold hypothyroidism comorbidity was shown to result in reduced gray matter volume in the middle front gyrus and lower executive function performance (7). The middle front gyrus is also associated with working memory and attention, suggesting that these cognitive subdomains may also be impacted. Together, these suggest that thyroid function may modulate function in multiple cognitive domains through more than one pathway. However, due to missing depressive scores in majority of participants, depression scores was unable to be accounted for as a predictive variable.
 
-Thus, this research project has the following objectives:
+Thus, this research project seeks to answer the following questions:
 
-**Primary**:  To determine if thyroid stimulating hormone (TSH), and cortical structure are able to sufficiently predict cognitive scores in executive function, working memory, and attention, using elastic net regression machine learning. 
+**Primary**: Can brain structure, combined with circulating levels of thyroid stimulating hormone (TSH), predict cognitive performance?
 
-**Secondary**: To determine if adding sex as a predictor improves the predictive performance of the model.
+**Exploratory**: Which variables contribute most to the model predictions?
 
 
 ### Tools
@@ -80,7 +80,7 @@ While, the main goal of the project was to create a model predicting cognitive s
 
 The following models were created: 
 
-**Model 1**
+**Model 1: Original cognition model**
 
 This is the original planned model to determine if TSH and brain features are able to predictive various cognitive subdomain scores
 Output:
@@ -93,7 +93,7 @@ Output:
 
 Predictors: log(TSH), 68 CT variables, 68 SA variables, ICV, age
 
-**Model 2**
+**Model 2: Age/ICV-residualized brain cognition model**
 
 This model modifies the first model by residualizing the brain variables to account for head size and age.
 
@@ -107,25 +107,25 @@ Output:
 
 Predictors: log(TSH), sex, 68 CT residuals after adjusting for age and ISV, 68 SA residuals after adjusting for age and ISV
 
-**Model 3**
+**Model 3: Sex-classification positive-control exercise**
 
 This model serves to confirm the pipeline developed works for variables and outcomes that have more literature evidence.
 
 Output: Sex
 
-Model 3.1
+**Model 3.1**
 
 Predictors: age, ICV, CT, SA
 
-Model 3.2 (added log(TSH)
+**Model 3.2 (added log(TSH)**
 
 Predictors: log(TSH), ICV, CT, SA
 
-Model 3.3 (residualized and without log(TSH)
+**Model 3.3 (residualized and without log(TSH)**
 
 Predictors: age, CT and SA residualized for age and CV
 
-Model 3.4 (residualized with log(TSH)
+**Model 3.4 (residualized with log(TSH)**
 
 Predictors: log(TSH), age, CT and SA residualized for age and CV
 
@@ -190,14 +190,15 @@ In the residualized models, the highest SHAP values were assigned to age/ICV-res
 
 
 ## Discusssion
-The two main predictive models were not able to reliably predict cognitive scores. Findings regarding the relationship between thyroid hormone levels and cognitive performance are generally mixed. This result is consistent with Quinque et al 7. The authors found that participants with Hashimoto’s Thyroiditis (hypothyroidism) were not significantly associated with cognitive impairment in working memory, and attention. The authors suggest that cognitive deficits may not be apparent in young, healthy individuals, due to cognitive reserve. The NIMH database is a healthy volunteer study, thus specifically excludes individuals with education levels lower than completion of middle school and those with mental health conditions, like depression. Thus, individuals whose cognitive performance may be impacted by thyroid levels may not be in the dataset. Additionally, due to depression scores being dropped as a predictor variable, one of the pathways in which thyroid hormones modulate cognitive performance may not be captured, further weakening the relationship.
+The main predictive models did not reliably predict cognitive performance. Across all outcomes, held-out R² values were near zero or negative, indicating no improvement over a baseline mean-prediction model. This suggests that the combination of TSH, age, sex, ICV, and cortical thickness/surface area did not provide meaningful predictive information for cognition in this dataset using elastic net regression.
 
-Our results contradict the findings from Zhao et al., and Beydoun et al. 8,9, which their results suggest that TSH levels can impact cognitive performance. Zhao et al., found that higher levels of TSH is associated with better performance in psychomotor speed, and attention; while, Beydoun et al., found that comorbid depression and hypothyroidism results in worse cognitive performance in executive function. These results together suggest TSH is associated with cognitive performance, in which low levels of TSH result in poor performance and vice-versa. Beydoun et al. found that the interaction term between TSH and depression score to be non-significant; suggesting the relationship between TSH and depression in relation to cognitive performance, in the model,  is additive. This suggests that the predictive accuracy of TSH is accurate but simply weak. This is supported by SHAP, which shows TSH as a very weak predictor of cognitive performance. 
+SHAP analyses were used to explore feature contributions, but given the weak model performance, these results should be interpreted as descriptive only. No variable, including log(TSH), showed a consistent or meaningful contribution to prediction across cognitive models. Variability in cortical feature importance likely reflects model instability under low signal conditions.
 
-Based on the SHAP values, the largest contribution to predictive power in the model are various brain regions. The brain regions that are calculated to be the most predictive by SHAP are not consistent with literature. The most predictive brain regions are the right supramarginal gyrus, and the right transversternal gyrus, as opposed to the middle front gyrus and the left anterior cingulate cortex found in literature 7,8.
+Residualizing cortical thickness and surface area for age and ICV did not improve predictive performance and in some cases reduced it, suggesting that these adjustments did not enhance signal detection for cognitive outcomes in this dataset.
 
-In contrast, the sex predictive model had fairly acceptable performance, with the non-residualized version performing the most accurately. This is fairly consistent with literature as machine learning models have been shown to be able to predict sex of a participant via imaging of their brains 10. In addition, the SHAP values are somewhat consistent with literature, since the most predictive region is the superior frontal gyrus 10. In addition, when accounting for the head and brain size in the residualized model, the predictive performance worsened. This is also consistent with literature since intracranial volume is a large contributor to model performance 11. This is also seen in the SHAP values for the sex difference model. 
-Overall, through the positive control of the sex predictive model, it was shown that this pipeline works for creating an accurate predictive model when the model is given predictors strongly related to the outcome. The main models had poor predictive performance due to the weak relationship between the predictors and cognitive performance, rather than poor methodology. Considering that the dataset uses healthy volunteers, which may not capture populations susceptible to cognitive decline due to TSH, and the lack of depressive score data, the model may also have been inaccurate due to the unavailability of data for relevant populations and stronger predictive variables. Thus, future predictive models for cognitive performance should ensure to utilize datasets with relevant populations and variable data to avoid bias.  
+A sex classification model was included as a positive control. This model achieved moderate performance in the non-residualized case but dropped to near-chance levels after residualization. This indicates that the pipeline can recover known structure when a strong signal is present, but this signal was not observed for cognitive outcomes.
+
+Overall, the results suggest that the lack of predictive performance in cognitive models is likely due to weak or absent signal in the available predictors within this dataset, rather than a failure of the modeling approach 
 
 
 ## References
@@ -216,8 +217,4 @@ Bernal J. Thyroid Hormones in Brain Development and Function. [Updated 2025 Sep 
 
 7) Zhao S, Du Y, Zhang Y, Wang X, Xia Y, Sun H, Huang Y, Zou H, Wang X, Chen Z, Zhou H, Yan R, Tang H, Lu Q and Yao Z (2023) Gray matter reduction is associated with cognitive dysfunction in depressed patients comorbid with subclinical hypothyroidism. Front. Aging Neurosci. 15:1106792. doi: 10.3389/fnagi.2023.1106792
 
-8) Beydoun, M. A., Beydoun, H. A., Kitner-Triolo, M. H., Kaufman, J. S., Evans, M. K., & Zonderman, A. B. (2013). Thyroid hormones are associated with cognitive function: moderation by sex, race, and depressive symptoms. The Journal of clinical endocrinology and metabolism, 98(8), 3470–3481. https://doi.org/10.1210/jc.2013-1813
- 
-9) Dibaji M, Ospel J, Souza R and Bento M (2024) Sex differences in brain MRI using deep learning toward fairer healthcare outcomes. Front. Comput. Neurosci. 18:1452457. doi: 10.3389/fncom.2024.1452457
 
-10) Sanchis-Segura C, Ibañez-Gual MV, Aguirre N, Cruz-Gómez ÁJ, Forn C. Effects of different intracranial volume correction methods on univariate sex differences in grey matter volume and multivariate sex prediction. Sci Rep. 2020 Jul 31;10(1):12953. doi: 10.1038/s41598-020-69361-9. Erratum in: Sci Rep. 2020 Oct 29;10(1):18937. doi: 10.1038/s41598-020-75522-7. PMID: 32737332; PMCID: PMC7395772. 
