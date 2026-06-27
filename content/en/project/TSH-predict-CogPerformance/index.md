@@ -2,7 +2,7 @@
 type: "project" # DON'T TOUCH THIS ! :)
 Date: "2026-06-26" # Date you first upload your project.
 # Title of your project (we like creative title)
-title: "Can brain structure and TSH levels predict cognitive performance, and does prediction improve when sex is considered in the model?"
+title: "Can brain structure and Thyroid Stimulating Hormone levels predict cognitive performance? Prediction models and SHAP-based variable contribution analyses?"
 
 # List the names of the collaborators within the [ ]. If alone, simple put your name within []
 names: [Katrina Mae Tapang, Monika Folkierska-Żukowska, Xinni Wang]
