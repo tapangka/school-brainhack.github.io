@@ -8,7 +8,7 @@ title: "Can brain structure and TSH levels predict cognitive performance, and do
 names: [Katrina Mae Tapang, Monika Folkierska-Żukowska, Xinni Wang]
 
 # Your project GitHub repository URL
-github_repo: Github.com/brainhack-school2026/TSH-predict-CogPerformance
+github_repo: https://github.com/brainhack-school2026/TSH-predict-CogPerformance
 
 # If you are working on a project that has website, indicate the full url including "https://" below or leave it empty.
 website:
@@ -149,7 +149,7 @@ For the other cognition models, the highest SHAP values were mainly assigned to 
 
 ### Model 1 Performance Metrics
 
-| Outcome | Pooled out-of-fold R-squared | Root Mean Squared Error | Mean Absolute Error |
+| Outcome | R-squared | RMSE | MAE |
 | --- | --- | --- | --- |
 | ATTN_EXE_COMP | -0.021 | 0.644 |  0.510 |
 |WKMEM | -0.008 | 10.352 | 8.357 |
@@ -157,11 +157,13 @@ For the other cognition models, the highest SHAP values were mainly assigned to 
 
 ### Model 2 Performance Metrics
 
-| Outcome | Pooled out-of-fold R-squared | Root Mean Squared Error | Mean Absolute Error |
+| Outcome | R-squared | RMSE | MAE |
 | --- | --- | --- | --- |
 | ATTN_EXE_COMP | -0.643 | 0.644 |  0.513 |
 |WKMEM | -0.042 | 10.541 | 8.578 |
 |EF_COMP | -0.015 | 0.818 | 0.682 |
+
+#### Figure 1 and 2: [The performance metrics for the main models predicting cognitive performance for both the original and residualized ](https://github.com/brainhack-school2026/TSH-predict-CogPerformance/blob/main/03_results/cognition/results.md)
 
 ### Model 3 Performance Metrics
 
@@ -171,6 +173,8 @@ For the other cognition models, the highest SHAP values were mainly assigned to 
 |Original + TSH | 0.788 | 0.729 | 0.723 |
 |Residualized | 0.535 | 0.518 | 0.507 |
 |Residualized + TSH | 0.536  |  0.523 | 0.510  |
+
+#### Figure 3: [The performance metrics for the sex predictive model](https://github.com/brainhack-school2026/TSH-predict-CogPerformance/blob/main/03_results/sex_classification_exercise/results.md)
 
 **Sex Predictive Models**
 
