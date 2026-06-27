@@ -55,7 +55,7 @@ Link to the dataset: https://openneuro.org/datasets/ds005752/versions/2.1.0
 
 
 ### Project deliverables 
-At the end of this project, these files will be made available:
+
 1) Python scripts for the 3 different predictive models;
 2) Figures of model performance results; 
 3) A repository on GitHub;
@@ -203,12 +203,13 @@ The main predictive models did not reliably predict cognitive performance. Acros
 
 SHAP analyses were used to explore feature contributions, but given the weak model performance, these results should be interpreted as descriptive only. No variable, including log(TSH), showed a consistent or meaningful contribution to prediction across cognitive models. Variability in cortical feature importance likely reflects model instability under low signal conditions.
 
-Residualizing cortical thickness and surface area for age and ICV did not improve predictive performance and in some cases reduced it, suggesting that these adjustments did not enhance signal detection for cognitive outcomes in this dataset.
+Residualizing cortical thickness and surface area for age and ICV did not improve predictive performance.
 
-A sex classification model was included as a positive control. This model achieved moderate performance in the non-residualized case but dropped to near-chance levels after residualization. This indicates that the pipeline can recover known structure when a strong signal is present, but this signal was not observed for cognitive outcomes.
+Because the cognition-prediction models showed weak held-out performance, we also ran a simpler sex-classification exercise using structural MRI features. This was not intended to answer the main research question. We used it to test whether a simpler outcome, with a more expected anatomical signal, would be possible to predict from the same brain features.
 
-Overall, the results suggest that the lack of predictive performance in cognitive models is likely due to weak or absent signal in the available predictors within this dataset, rather than a failure of the modeling approach.
+The non-residualized sex-classification models showed moderate performance, while performance dropped close to chance after age/ICV residualization. This pattern is consistent with the SHAP results, where ICV had the largest contribution in the non-residualized model, and with the fact that sex differences in ICV are generally more robust than sex differences in regional cortical thickness or surface area.
 
+For the cognition models, weak held-out performance may reflect limited signal in this healthy-volunteer dataset, missing relevant predictors, limited sample size, or limitations of the specific modeling approach used here. Future analyses could test larger or more clinically variable samples, additional predictors, and different modeling or cross-validation strategies.
 
 ## References
 1) Nichols, E. et al. Estimation of the global prevalence of dementia in 2019 and forecasted prevalence in 2050: an analysis for the Global Burden of Disease Study 2019. Lancet Public Health 7, e105–e125 (2022).
